@@ -3,3 +3,32 @@ td {
     padding: 8px;
     text-align: left;
 }
+th {
+    border: 1px solid black;
+    padding: 8px;
+    background-color: #f2f2f2;
+    text-align: left;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+tr:nth-child(even) {
+    background-color: #bfc9ca;
+}
+tr:hover {
+    background-color: #512a2a;
+}
+tr:hover {
+    background-color: #e40f0f;
+}
+tr:hover {
+    background-color: #a85656;
+}
+tr:hover {
+    background-color: #116768;
+}
+tr:hover {
+    background-color: #36b5b5;
+}
+

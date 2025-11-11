@@ -1,0 +1,38 @@
+#top{
+    text-align: center;
+}
+.block{
+    display: block;
+    background-color: rgb(0, 174, 255);
+    color:white ;
+    padding: 8px;
+    
+}
+
+.inline{
+    display: inline;
+    padding: 5px;
+    background-color: rgb(15, 254, 130);
+    color: white;
+   }
+
+.inline-block{
+    display: inline-block;
+    padding: 5px;
+    background-color: rgb(202, 15, 254);
+    color: white;
+    height: 35px;
+    width: 57px;
+    align-content: center;
+    text-align: center;
+}
+  
+.float{
+    background-color: orange;
+    
+    padding: 10px;
+    margin-right:10px ;
+    float: left;
+
+
+}
