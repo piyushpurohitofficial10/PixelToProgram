@@ -1,19 +1,63 @@
-td {
-    border: 1px solid black;
-    padding: 8px;
-    text-align: left;
+.body{
+    font-family: Georgia, serif;
+    margin: 20px;
 }
 
-th {
-    border: 1px solid black;
-    padding: 8px;
-    background-color: #f2f2f2;
-    text-align: left;
+.container{
+    border: 2px solid #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    gap: 40px;
+    padding: 40px;
+    margin: 20px;
 }
-table {
-    border-collapse: collapse;
-    width: 100%;
+.card{
+
+    background-color: white;
+    width: 220px;
+    text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 6px 3px 10px rgba(0, 0, 0, 0.5);
+    border: 2px solid #007bff;
 }
-tr:nth-child(even) {
-    background-color: #f9f9f9;
+.circle{
+    background-color: #07bcf3;
+    font-weight: bold;
+    font-size: bold;
+    border-radius: 50%;
+    width: 70px;
+    height: 70px;
+    line-height: 70px;
+    margin: 0 auto 15px auto;
+    border: 2px solid #007bff;
+    color: rgb(255, 255, 255);
+    font-size: 24px;
+    font-weight: bold;
+}
+h2{
+    color: #007bff;
+    margin-bottom: 15px;
+}
+p{
+    color: #000000;
+    font-size: 16px;
+    line-height: 1.5;
+}
+.card:hover{
+    box-shadow: 8px 6px 15px rgba(0, 0, 0, 0.7);
+    transform: translateY(-5px);
+    transition: all 0.3s ease;
+}
+h3{
+    color: #000000;
+    margin-top: 15px;
+}
+
+
+
+a{
+    text-decoration: none;
 }
