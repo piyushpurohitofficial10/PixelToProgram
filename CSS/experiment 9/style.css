@@ -43,8 +43,10 @@
     font-size: 24px;
     text-align: center;
     margin-top: 20px;
+    font-weight: bold;
 }
 .alert:hover {
     color: rgb(10, 10, 10);
     cursor: pointer;
+    transition: color 0.3s ease;
 }
