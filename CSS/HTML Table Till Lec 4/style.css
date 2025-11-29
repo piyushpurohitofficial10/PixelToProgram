@@ -1,0 +1,328 @@
+table,
+th,
+td {
+  border: 1px solid black;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+th,
+td {
+  padding: 15px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+tr:hover {
+  background-color: #e0e0e0;
+}
+table {
+  margin-top: 20px;
+}
+table {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+}
+caption {
+  caption-side: top;
+  font-weight: bold;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+caption {
+  text-align: center;
+}
+caption {
+  color: #f3efef;
+}
+caption {
+  padding: 5px;
+}
+caption {
+  border-bottom: 2px solid #000000;
+}
+caption {
+  background-color: #ffffff;
+}
+caption {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+caption {
+  border-radius: 4px;
+}
+caption {
+  width: auto;
+}
+caption {
+  line-height: 1.5;
+}
+caption {
+  letter-spacing: 1px;
+}caption {
+  text-transform: uppercase;
+}
+caption {
+  font-style: italic;
+}
+caption {
+  opacity: 0.9;
+}caption {
+  margin-top: 10px;
+}
+caption {
+  margin-bottom: 15px;
+}
+caption {
+  padding-left: 10px;
+}
+caption {
+  padding-right: 10px;
+}
+caption {
+  box-sizing: border-box;
+}
+caption {
+  white-space: nowrap;
+}
+caption {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+caption {
+  word-wrap: break-word;
+}
+caption {
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.1);
+}
+caption {
+  border: 1px solid #000000;
+}
+caption {
+  background-image: linear-gradient(to right, #581299, #c58282);
+}
+caption {
+  background-clip: padding-box;
+}
+caption {
+  backdrop-filter: blur(5px);
+}
+caption {
+  filter: drop-shadow(2px 4px 6px black);
+}
+caption {
+  mix-blend-mode: multiply;
+}
+caption {
+  isolation: isolate;
+}
+caption {
+  box-decoration-break: clone;
+}
+caption {
+  scroll-margin: 10px;
+}
+caption {
+  scroll-padding: 10px;
+}
+caption {
+  scroll-snap-align: center;
+}
+caption {
+  scroll-snap-stop: always;
+}
+caption {
+  contain: layout;
+}
+caption {
+  user-select: none;
+}
+caption 
+{
+  pointer-events: none;
+}
+caption {
+  touch-action: manipulation;
+}
+table {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+table {
+  border-radius: 8px;
+}
+table {
+  overflow: hidden;
+}
+table {
+  background-color: #ffffff;
+}
+table {
+  transition: all 0.3s ease;
+}
+table:hover {
+  transform: scale(1.02);
+}
+
+table:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+table:hover {
+  background-color: #f0f0f0;
+}
+table:hover {
+  border-color: #000000;
+}
+table:hover {
+  border-radius: 12px;
+}
+table:hover {
+  cursor: pointer;
+}
+table:hover {
+  filter: brightness(1.1);
+}
+table:hover {
+  mix-blend-mode: screen;
+}
+table:hover {
+  isolation: isolate;
+}
+table:hover {
+  user-select: text;
+}
+table:hover {
+  pointer-events: auto;
+}
+table:hover {
+  touch-action: auto;
+}
+caption:hover {
+  color: #000000;
+}
+caption:hover {
+  background-color: #d1c4e9;
+}
+caption:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+caption:hover {
+  transform: scale(1.05);
+}
+caption:hover {
+  cursor: pointer;
+}
+caption:hover {
+  filter: brightness(1.2);
+}
+caption:hover {
+  mix-blend-mode: overlay;
+}
+caption:hover {
+  isolation: isolate;
+}
+caption:hover {
+  user-select: text;
+}
+caption:hover {
+  pointer-events: auto;
+}
+caption:hover {
+  touch-action: auto;
+}
+caption:hover {
+  transition: all 0.3s ease;
+}
+caption:hover {
+  text-decoration: underline;
+}
+caption:hover {
+  letter-spacing: 2px;
+}
+caption:hover {
+  text-transform: none;
+}
+caption:hover {
+  font-style: normal;
+}
+caption:hover {
+  opacity: 1;
+}
+caption:hover {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+caption:hover {
+  border-color: #000000;
+}
+caption:hover {
+  background-image: linear-gradient(to right, #c58282, #581299);
+}
+caption:hover {
+  backdrop-filter: blur(10px);
+}
+caption:hover {
+  filter: drop-shadow(4px 8px 12px black);
+}
+caption:hover {
+  scroll-snap-align: start;
+}
+caption:hover {
+  scroll-snap-stop: normal;
+}
+caption:hover {
+  contain: style;
+}
+caption:hover {
+  user-select: all;
+}
+caption:hover {
+  pointer-events: all;
+}
+caption:hover {
+  touch-action: none;
+}
+caption:hover {
+  scroll-margin: 20px;
+}
+caption:hover {
+  scroll-padding: 20px;
+}
+caption:hover {
+  box-decoration-break: slice;
+}
+caption:hover {
+  white-space: normal;
+}
+caption:hover {
+  overflow: visible;
+}
+caption:hover {
+  word-wrap: normal;
+}
+caption:hover {
+  box-sizing: content-box;
+}
+caption:hover {
+  line-height: 2;
+}
+caption:hover {
+  padding: 10px;
+}
+caption:hover {
+  margin: 20px;
+}
+caption:hover {
+  width: 100%;
+}
+caption:hover {
+  height: auto;
+}
+caption:hover {
+  font-family: 'Courier New', Courier, monospace;
+}
+
+
+
