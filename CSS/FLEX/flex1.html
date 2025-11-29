@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flexbox Layout</title>
+    <style>
+
+        .container {
+            display: flex;
+            flex-direction:column-reverse;
+            background-color: #7e0d0d;
+            padding: 20px;
+            border: 2px solid #000000;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            max-width: 800px;   
+            margin: 20px auto;
+        }
+        .box {
+            background-color: #000000;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            margin: 10px;
+            font-size: 1.5em;
+            flex: 1;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+
+        }
+        .box1 { background-color: #ff5733; }
+        .box2 { background-color: #33c1ff; }
+        .box3 { background-color: #75ff33; }
+        .box4 { background-color: #ff33a6; }
+        .box5 { background-color: #f3ff33; }
+    </style>
+</head>
+<body>
+    <h1>FLEXIBLE LAYOUT PLAYGROUND</h1>
+</body>
+<div class="flex-container">
+    <div class="box box1">Box 1</div>
+    <div class="box box2">Box 2</div>
+    <div class="box box3">Box 3</div>
+    <div class="box box4">Box 4</div>
+    <div class="box box5">Box 5</div>
+</div>
+</body>
+</html>
