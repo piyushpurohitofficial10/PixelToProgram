@@ -1,0 +1,65 @@
+/* LEVEL 1: Enable Flexbox [cite: 137] */
+.container-l1 {
+    display: flex; 
+}
+
+/* LEVEL 2: Direction Master [cite: 161] */
+.container-l2-row { flex-direction: row; }
+.container-l2-col { flex-direction: column; }
+.container-l2-rev { flex-direction: row-reverse; }
+
+/* LEVEL 3: Horizontal Alignment [cite: 184] */
+.container-l3 {
+    display: flex;
+    justify-content: space-between; /* Common choice */
+}
+
+/* LEVEL 5: Combo Power (Center Everything) [cite: 225] */
+/* Often used in Hero Banners */
+.container-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 250px;
+}
+
+/* LEVEL 7: Mini LeetCode Challenge [cite: 253] */
+/* 4 boxes, row direction, first on left/last on right, vertically centered */
+.leetcode-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* LEVEL 8: Navigation Bar [cite: 271] */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2196f3;
+    padding: 10px 20px;
+}
+.menu {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+/* FINAL LEVEL: Flexbox Boss Layout [cite: 307] */
+/* Layout with Header, Footer, and Middle(Sidebar+Main) */
+.layout {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+.middle {
+    display: flex;
+    flex: 1; /* Takes remaining height */
+}
+aside {
+    width: 30%;
+}
+main {
+    flex: 1; /* Takes remaining width */
+}

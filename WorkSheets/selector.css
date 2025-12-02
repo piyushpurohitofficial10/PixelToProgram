@@ -1,0 +1,55 @@
+/* Q1: Universal Selector [cite: 643] */
+/* Makes all elements blue and Arial */
+* {
+    color: blue;
+    font-family: Arial;
+}
+
+/* Q2: Element Selector [cite: 652] */
+h2 {
+    color: red;
+}
+p {
+    color: green;
+}
+
+/* Q3: Class Selector [cite: 661] */
+.highlight {
+    background-color: yellow;
+    font-weight: bold;
+}
+
+/* Q4: ID Selector [cite: 670] */
+#main-title {
+    color: purple;
+    text-align: center;
+}
+
+/* Q5: Group Selector [cite: 678] */
+h1, h2, p {
+    color: blue;
+}
+
+/* Q6: Descendant Selector [cite: 687] */
+/* Paragraphs INSIDE a div are brown */
+div p {
+    color: brown;
+}
+
+/* Q7: Child Selector [cite: 697] */
+/* Only DIRECT children paragraphs are green */
+div > p {
+    color: green;
+}
+
+/* Q8: Adjacent Sibling Selector [cite: 709] */
+/* First p immediately after h2 is red */
+h2 + p {
+    color: red;
+}
+
+/* Q9: General Sibling Selector [cite: 718] */
+/* All p elements after h3 are lightgray background */
+h3 ~ p {
+    background-color: lightgray;
+}
