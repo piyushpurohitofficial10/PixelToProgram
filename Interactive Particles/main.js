@@ -174,11 +174,6 @@ async function processVideoFrame() {
 
     requestAnimationFrame(processVideoFrame);
 }
-
-// ============================================
-// HAND TRACKING RESULTS
-// ============================================
-
 function onHandResults(results) {
     // Clear canvas
     canvasCtx.save();
