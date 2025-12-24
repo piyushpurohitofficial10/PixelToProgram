@@ -161,8 +161,6 @@ async function initHandTracking() {
     });
 
     hands.onResults(onHandResults);
-
-    // Setup camera
     try {
         const stream = await navigator.mediaDevices.getUserMedia({
             video: { width: 640, height: 480 }
