@@ -107,8 +107,6 @@ function createParticleSystem() {
             z: positions[i * 3 + 2]
         });
         particleVelocities.push({ x: 0, y: 0, z: 0 });
-
-        // Initial color (blue-purple)
         const color = new THREE.Color();
         color.setHSL(colorHue / 360, 0.8, 0.6);
         colors[i * 3] = color.r;
