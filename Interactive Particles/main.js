@@ -145,8 +145,6 @@ async function initHandTracking() {
     videoElement = document.getElementById('cameraFeed');
     canvasElement = document.getElementById('handCanvas');
     canvasCtx = canvasElement.getContext('2d');
-
-    // Initialize MediaPipe Hands
     hands = new Hands({
         locateFile: (file) => {
             return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
