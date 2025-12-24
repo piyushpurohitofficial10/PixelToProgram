@@ -157,10 +157,6 @@ async function initHandTracking() {
         });
 
         videoElement.srcObject = stream;
-
-
-
-        // Start processing video frames
         processVideoFrame();
 
     } catch (error) {
