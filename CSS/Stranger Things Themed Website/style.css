@@ -231,3 +231,14 @@
     justify-content: center;
     align-items: center;
 }
+.login-box h2 {
+    font-family: 'Merriweather', serif; 
+    text-transform: uppercase;          
+    font-size: 2.5rem;                 
+    color: transparent;                 
+    -webkit-text-stroke: 2px #ff1f1f;   
+    letter-spacing: -2px;               
+    margin-bottom: 40px;
+    text-shadow: 0 0 10px #ff1f1f, 
+                 0 0 30px #ff1f1f;
+}
