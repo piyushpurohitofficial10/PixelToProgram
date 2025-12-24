@@ -128,8 +128,6 @@ function createParticleSystem() {
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
     particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
     particleGeometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
-
-    // Particle material with vertex colors
     particleMaterial = new THREE.PointsMaterial({
         size: 3,
         vertexColors: true,
@@ -142,6 +140,7 @@ function createParticleSystem() {
     particleSystem = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particleSystem);
 }
+
 async function initHandTracking() {
     videoElement = document.getElementById('cameraFeed');
     canvasElement = document.getElementById('handCanvas');
