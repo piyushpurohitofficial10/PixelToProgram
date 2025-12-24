@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stranger Things: The Particle Dimension</title>
+    <!-- Fonts for the Retro Aesthetic -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Rubik+Glitch&family=Roboto+Mono:wght@300&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #050505; /* Deep Upside Down Black */
+            font-family: 'Roboto Mono', monospace;
+            color: #dcdcdc;
+            user-select: none;
+        }
+
+        #canvas-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 1;
+        }
+
+        /* Video element hidden, used for processing */
+        #input_video {
+            display: none; 
+        }
+
+        /* UI Overlay */
+        #ui-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none; /* Let clicks pass through to canvas where needed */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px;
+            box-sizing: border-box;
+            background: radial-gradient(circle at center, transparent 0%, #000000 120%);
+        }
+
+        /* Header */
+        header {
+            text-align: center;
+            pointer-events: auto;
+        }
+
+        h1 {
+            font-family: 'Creepster', cursive;
+            font-size: 4rem;
+            margin: 0;
+            color: #ff0000;
+            text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
+            letter-spacing: 2px;
+            animation: flicker 4s infinite;
+        }
+
+        h2 {
+            font-family: 'Rubik Glitch', sans-serif;
+            font-size: 1.2rem;
+            color: #00e5ff; /* Eleven's telekinesis blue or generic sci-fi */
+            margin-top: -10px;
+            text-transform: uppercase;
+            text-shadow: 0 0 5px #00e5ff;
+        }
+
+        /* Controls */
+        #controls {
+            pointer-events: auto;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid #ff0000;
+            padding: 15px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+            align-self: flex-start;
+            margin-top: 20px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.2);
+        }
+
+        button {
+            background: transparent;
+            border: 1px solid #dcdcdc;
+            color: #dcdcdc;
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        button:hover, button.active {
+            background: #ff0000;
+            border-color: #ff0000;
+            color: #000;
+            box-shadow: 0 0 10px #ff0000;
+        }
+
+        #status {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            font-size: 0.8rem;
+            color: #555;
+            text-align: right;
+        }
+
+        .highlight {
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        /* Scanning Line Effect */
+        .scanline {
+            width: 100%;
+            height: 100px;
+            z-index: 5;
+            background: linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(255, 0, 0, 0.1) 50%, rgba(0,0,0,0) 100%);
+            opacity: 0.1;
+            position: absolute;
+            bottom: 100%;
+            animation: scanline 10s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes scanline {
+            0% { bottom: 100%; }
+            100% { bottom: -100px; }
+        }
+
+        @keyframes flicker {
+            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+                opacity: 1;
+                text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000;
+            }
+            20%, 24%, 55% {
+                opacity: 0.4;
+                text-shadow: none;
+            }
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 600px) {
+            h1 { font-size: 2.5rem; }
+            #controls { 
+                position: absolute; 
+                bottom: 60px; 
+                left: 50%; 
+                transform: translateX(-50%); 
+                width: 90%;
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            #status { display: none; }
+        }
+    </style>
+    
+    <!-- Three.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- MediaPipe Hands -->
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div id="canvas-container"></div>
+    <video id="input_video"></video>
+    <div class="scanline"></div>
+
+    <div id="ui-layer">
+        <header>
+            <h1>STRANGER THINGS</h1>
+            <h2>Particle Dimension</h2>
+        </header>
+
+        <div id="controls">
+            <div style="margin-bottom: 10px; color: #ff0000; font-weight: bold; text-align: center;">SELECT SHAPE</div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center;">
+                <button onclick="setShape('cloud')" class="active" id="btn-cloud">The Upside Down</button>
+                <button onclick="setShape('heart')" id="btn-heart">011's Heart</button>
+                <button onclick="setShape('flower')" id="btn-flower">Demogorgon</button>
+                <button onclick="setShape('saturn')" id="btn-saturn">Saturn</button>
+                <button onclick="setShape('fireworks')" id="btn-fireworks">Mind Flayer</button>
+            </div>
+            <div style="margin-top: 15px; font-size: 0.7rem; text-align: center; color: #aaa;">
+                Use Hand or Mouse to interact.<br>
+                Pinch/Click to pull. Open Hand/Hover to disperse.
+            </div>
+        </div>
+
+        <div id="status">
+            Initializing Uplink...<br>
+            <span id="cam-status">Camera: Searching...</span>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. Configuration & Global State ---
+        const config = {
+            particleCount: 4000,
+            particleSize: 0.8,
+            colorPalette: [
+                new THREE.Color('#ff0000'), // Red
+                new THREE.Color('#330000'), // Dark Red
+                new THREE.Color('#0000ff'), // Blue
+                new THREE.Color('#aaaaaa'), // Ash
+                new THREE.Color('#440044')  // Purple/Void
+            ]
+        };
+
+        let scene, camera, renderer, particles, geometry, materials;
+        let particlePositions = []; // Current positions
+        let targetPositions = [];   // Where they want to go
+        let originalPositions = []; // Base shape positions
+        let colors = [];
+        let sizes = [];
+        
+        // Interaction State
+        const mouse = new THREE.Vector2(9999, 9999); // Off-screen default
+        let isHandDetected = false;
+        let isInteracting = false; // Pinch or Click
+        let interactionStrength = 0;
+        let currentShape = 'cloud';
+        let time = 0;
+
+        // --- 2. Texture Generation (Procedural Glow) ---
+        function createParticleTexture() {
+            const canvas = document.createElement('canvas');
+            canvas.width = 32;
+            canvas.height = 32;
+            const context = canvas.getContext('2d');
+            const gradient = context.createRadialGradient(16, 16, 0, 16, 16, 16);
+            gradient.addColorStop(0, 'rgba(255, 255, 255, 1)');
+            gradient.addColorStop(0.2, 'rgba(230, 230, 255, 0.8)');
+            gradient.addColorStop(0.5, 'rgba(128, 0, 0, 0.2)');
+            gradient.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            context.fillStyle = gradient;
+            context.fillRect(0, 0, 32, 32);
+            
+            const texture = new THREE.Texture(canvas);
+            texture.needsUpdate = true;
+            return texture;
+        }
+
+        // --- 3. Three.js Initialization ---
+        function initThree() {
+            const container = document.getElementById('canvas-container');
+            
+            scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x050505, 0.002);
+
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 50;
+
+            renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            container.appendChild(renderer.domElement);
+
+            // Lighting (for atmosphere, though particles are unlit points mostly)
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            const pointLight = new THREE.PointLight(0xff0000, 1, 100);
+            pointLight.position.set(10, 10, 10);
+            scene.add(pointLight);
+
+            // Init Particles
+            createParticles();
+
+            // Resize Handler
+            window.addEventListener('resize', onWindowResize, false);
+            
+            // Mouse Listeners (Fallback)
+            document.addEventListener('mousemove', onMouseMove, false);
+            document.addEventListener('mousedown', () => isInteracting = true);
+            document.addEventListener('mouseup', () => isInteracting = false);
+            // Touch listeners for mobile without camera
+            document.addEventListener('touchmove', onTouchMove, { passive: false });
+            document.addEventListener('touchstart', () => isInteracting = true);
+            document.addEventListener('touchend', () => isInteracting = false);
+        }
+
+        function createParticles() {
+            geometry = new THREE.BufferGeometry();
+            
+            const posArray = new Float32Array(config.particleCount * 3);
+            const colorArray = new Float32Array(config.particleCount * 3);
+            const sizeArray = new Float32Array(config.particleCount);
+
+            for (let i = 0; i < config.particleCount; i++) {
+                // Initial: Random cloud (The Upside Down spores)
+                const x = (Math.random() - 0.5) * 100;
+                const y = (Math.random() - 0.5) * 100;
+                const z = (Math.random() - 0.5) * 50;
+                
+                posArray[i*3] = x;
+                posArray[i*3+1] = y;
+                posArray[i*3+2] = z;
+
+                particlePositions.push(new THREE.Vector3(x, y, z));
+                targetPositions.push(new THREE.Vector3(x, y, z));
+                originalPositions.push(new THREE.Vector3(x, y, z));
+
+                // Colors
+                const color = config.colorPalette[Math.floor(Math.random() * config.colorPalette.length)];
+                colorArray[i*3] = color.r;
+                colorArray[i*3+1] = color.g;
+                colorArray[i*3+2] = color.b;
+
+                // Random sizes
+                sizeArray[i] = Math.random() * config.particleSize;
+            }
+
+            geometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+            geometry.setAttribute('color', new THREE.BufferAttribute(colorArray, 3));
+            geometry.setAttribute('size', new THREE.BufferAttribute(sizeArray, 1));
+
+            const material = new THREE.PointsMaterial({
+                size: config.particleSize,
+                vertexColors: true,
+                map: createParticleTexture(),
+                blending: THREE.AdditiveBlending,
+                depthWrite: false,
+                transparent: true,
+                opacity: 0.8
+            });
+
+            particles = new THREE.Points(geometry, material);
+            scene.add(particles);
+        }
+
+        // --- 4. Shape Generators ---
+        function getShapePosition(type, index) {
+            const i = index;
+            const ratio = i / config.particleCount;
+            let v = new THREE.Vector3();
+
+            switch(type) {
+                case 'cloud':
+                    // Just floating spores, random but bound
+                    const t = time * 0.1 + i;
+                    v.x = (Math.sin(t * 0.01) * 30) + (Math.random() - 0.5) * 60;
+                    v.y = (Math.cos(t * 0.02) * 20) + (Math.random() - 0.5) * 40;
+                    v.z = (Math.sin(t * 0.03) * 10) + (Math.random() - 0.5) * 40;
+                    return v;
+
+                case 'heart':
+                    // Parametric Heart
+                    // x = 16sin^3(t)
+                    // y = 13cos(t) - 5cos(2t) - 2cos(3t) - cos(4t)
+                    const phi = (i * 0.5) % (Math.PI * 2);
+                    const theta = (i * 0.1) % Math.PI; // Add some volume
+                    
+                    const h_scale = 1.5;
+                    v.x = h_scale * 16 * Math.pow(Math.sin(phi), 3);
+                    v.y = h_scale * (13 * Math.cos(phi) - 5 * Math.cos(2*phi) - 2 * Math.cos(3*phi) - Math.cos(4*phi));
+                    v.z = (Math.random() - 0.5) * 10; // Thin layer
+                    return v;
+
+                case 'flower':
+                    // Rose/Flower curve
+                    const k = 4; // Petals
+                    const f_theta = i * 0.1;
+                    const f_rad = 20 * Math.cos(k * f_theta) + 5;
+                    v.x = f_rad * Math.cos(f_theta);
+                    v.y = f_rad * Math.sin(f_theta);
+                    v.z = (i % 20) - 10; // Cylinder depth
+                    return v;
+                
+                case 'saturn':
+                    // Planet sphere + Ring
+                    if (i < config.particleCount * 0.3) {
+                        // Planet body
+                        const s_radius = 12;
+                        const s_phi = Math.acos( -1 + ( 2 * i ) / (config.particleCount*0.3) );
+                        const s_th = Math.sqrt( (config.particleCount*0.3) * Math.PI ) * s_phi;
+                        v.x = s_radius * Math.cos(s_th) * Math.sin(s_phi);
+                        v.y = s_radius * Math.sin(s_th) * Math.sin(s_phi);
+                        v.z = s_radius * Math.cos(s_phi);
+                    } else {
+                        // Ring
+                        const r_rad = 20 + Math.random() * 10;
+                        const r_ang = i * 0.1;
+                        v.x = r_rad * Math.cos(r_ang);
+                        v.z = r_rad * Math.sin(r_ang);
+                        v.y = (Math.random() - 0.5) * 1; // Flat ring
+                        // Tilt the ring
+                        const tilt = 0.4;
+                        const ty = v.y * Math.cos(tilt) - v.z * Math.sin(tilt);
+                        const tz = v.y * Math.sin(tilt) + v.z * Math.cos(tilt);
+                        v.y = ty; 
+                        v.z = tz;
+                    }
+                    return v;
+
+                case 'fireworks':
+                    // Explosion out from center
+                    const fw_radius = 40 * Math.random();
+                    const fw_theta = Math.random() * Math.PI * 2;
+                    const fw_phi = Math.acos(2 * Math.random() - 1);
+                    v.x = fw_radius * Math.sin(fw_phi) * Math.cos(fw_theta);
+                    v.y = fw_radius * Math.sin(fw_phi) * Math.sin(fw_theta);
+                    v.z = fw_radius * Math.cos(fw_phi);
+                    return v;
+
+                default:
+                    return new THREE.Vector3(0,0,0);
+            }
+        }
+
+        // --- 5. Logic Updates ---
+        
+        function setShape(shape) {
+            currentShape = shape;
+            
+            // Highlight Button
+            document.querySelectorAll('button').forEach(b => b.classList.remove('active'));
+            document.getElementById(`btn-${shape}`).classList.add('active');
+
+            // Recalculate colors based on theme
+            const colorsAttr = geometry.attributes.color;
+            for(let i=0; i<config.particleCount; i++) {
+                let color;
+                if (shape === 'heart') color = config.colorPalette[0]; // Red
+                else if (shape === 'flower') color = i%2===0 ? config.colorPalette[1] : config.colorPalette[3]; // Dark red/Ash
+                else if (shape === 'saturn') color = i%3===0 ? config.colorPalette[2] : config.colorPalette[3]; // Blue/Ash
+                else if (shape === 'fireworks') color = config.colorPalette[Math.floor(Math.random()*5)]; // All
+                else color = config.colorPalette[3]; // Ash default
+
+                // Add some variation
+                colorsAttr.setXYZ(i, color.r, color.g, color.b);
+            }
+            colorsAttr.needsUpdate = true;
+        }
+
+        function animateParticles() {
+            time += 0.5;
+            const positions = geometry.attributes.position.array;
+            
+            // Cursor/Hand World Position projection
+            // Z=0 plane roughly
+            const vector = new THREE.Vector3(mouse.x, mouse.y, 0.5);
+            vector.unproject(camera);
+            const dir = vector.sub(camera.position).normalize();
+            const distance = -camera.position.z / dir.z;
+            const targetPos = camera.position.clone().add(dir.multiplyScalar(distance));
+            
+            // Interaction Force
+            // If interacting (pinch/click), pull tight. If not, slight repel or flow.
+            const attractStrength = isInteracting ? 0.2 : -0.05;
+
+            for(let i=0; i<config.particleCount; i++) {
+                // 1. Get Ideal Shape Position
+                const target = getShapePosition(currentShape, i);
+                
+                // 2. Physics: Move towards target (Shape formation)
+                // Lerp factor
+                const speed = 0.05;
+                
+                let px = positions[i*3];
+                let py = positions[i*3+1];
+                let pz = positions[i*3+2];
+
+                // Move towards shape shape
+                px += (target.x - px) * speed;
+                py += (target.y - py) * speed;
+                pz += (target.z - pz) * speed;
+
+                // 3. Interaction (Hand/Mouse)
+                const dx = px - targetPos.x;
+                const dy = py - targetPos.y;
+                const dz = pz - targetPos.z; // usually 0 plane interaction
+                const distSq = dx*dx + dy*dy + dz*dz;
+
+                // Radius of influence
+                if(distSq < 900) { // 30 units radius
+                    const dist = Math.sqrt(distSq);
+                    const force = (30 - dist) / 30; // 1 at center, 0 at edge
+                    
+                    // Add noise/jitter if hand is close (Stranger things electrical interference)
+                    const jitter = isInteracting ? (Math.random()-0.5) * 2 : 0;
+
+                    if (isInteracting) {
+                        // Attraction (Pinch) - Pull to center
+                        px -= dx * force * 0.1 + jitter;
+                        py -= dy * force * 0.1 + jitter;
+                        pz -= dz * force * 0.1 + jitter;
+                    } else {
+                        // Repulsion (Open Hand) - Push away smoothly
+                        px += dx * force * 0.2;
+                        py += dy * force * 0.2;
+                        pz += dz * force * 0.2;
+                    }
+                }
+
+                positions[i*3] = px;
+                positions[i*3+1] = py;
+                positions[i*3+2] = pz;
+            }
+
+            geometry.attributes.position.needsUpdate = true;
+            
+            // Rotate the whole system slowly for dynamic feel
+            particles.rotation.y = time * 0.002;
+            particles.rotation.z = time * 0.001;
+
+            renderer.render(scene, camera);
+            requestAnimationFrame(animateParticles);
+        }
+
+        // --- 6. Input Handling (Mouse & Camera) ---
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function onMouseMove(event) {
+            // Normalized Device Coordinates (-1 to +1)
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            // Mouse is always "detected"
+            if (!isHandDetected) {
+               // Only use mouse interaction state if hand isn't overriding
+            }
+        }
+        
+        function onTouchMove(event) {
+             if(event.touches.length > 0) {
+                 event.preventDefault();
+                 mouse.x = (event.touches[0].clientX / window.innerWidth) * 2 - 1;
+                 mouse.y = -(event.touches[0].clientY / window.innerHeight) * 2 + 1;
+             }
+        }
+
+        // --- 7. MediaPipe Hands Setup ---
+        
+        const videoElement = document.getElementById('input_video');
+        const camStatus = document.getElementById('cam-status');
+
+        function onResults(results) {
+            if (results.multiHandLandmarks && results.multiHandLandmarks.length > 0) {
+                isHandDetected = true;
+                camStatus.innerText = "Camera: Hand Detected";
+                camStatus.style.color = "#00ff00";
+
+                // Get first hand
+                const landmarks = results.multiHandLandmarks[0];
+                
+                // Index Finger Tip (8) position for cursor
+                const indexTip = landmarks[8];
+                const thumbTip = landmarks[4];
+                const middleTip = landmarks[12];
+
+                // Convert to NDC (Mirror X for natural feeling)
+                mouse.x = (1 - indexTip.x) * 2 - 1;
+                mouse.y = -(indexTip.y) * 2 + 1;
+
+                // Gesture Detection: Pinch (Distance between Index and Thumb)
+                // Simple Euclidean distance in 2D normalized space
+                const dx = indexTip.x - thumbTip.x;
+                const dy = indexTip.y - thumbTip.y;
+                const distance = Math.sqrt(dx*dx + dy*dy);
+
+                // Threshold for pinch
+                if (distance < 0.05) {
+                    isInteracting = true; // Pinching -> Attract/Hold
+                    document.body.style.cursor = "grabbing";
+                } else {
+                    isInteracting = false; // Open -> Repel
+                    document.body.style.cursor = "default";
+                }
+
+                // Optional: Check for Fist (All fingers down) vs Open Palm
+                // Simple heuristic: Is Index finger tip below the knuckle (pip)?
+                // Not implementing full fist logic to keep it snappy, pinch is robust.
+
+            } else {
+                if (isHandDetected) {
+                    // Lost hand recently
+                    camStatus.innerText = "Camera: Searching...";
+                    camStatus.style.color = "#ffff00";
+                }
+                isHandDetected = false;
+                // Fallback to mouse state is automatic via global vars
+            }
+        }
+
+        const hands = new Hands({locateFile: (file) => {
+            return `https://cdn.jsdelivr.net/npm/@mediapipe/hands/${file}`;
+        }});
+
+        hands.setOptions({
+            maxNumHands: 1,
+            modelComplexity: 1,
+            minDetectionConfidence: 0.5,
+            minTrackingConfidence: 0.5
+        });
+
+        hands.onResults(onResults);
+
+        // Try to start camera
+        const cameraUtils = new Camera(videoElement, {
+            onFrame: async () => {
+                await hands.send({image: videoElement});
+            },
+            width: 640,
+            height: 480
+        });
+
+        cameraUtils.start()
+            .then(() => {
+                console.log("Camera started");
+            })
+            .catch(err => {
+                console.error("Camera failed", err);
+                camStatus.innerText = "Camera: Not Found / Denied (Using Mouse)";
+                camStatus.style.color = "#ff0000";
+            });
+
+        // --- Start ---
+        initThree();
+        animateParticles();
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Interactive 3D particle system controlled by hand gestures using Three.js and MediaPipe">
+    <title>Interactive 3D Particle System | Hand Gesture Control</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!-- Three.js Canvas -->
+    <canvas id="particleCanvas"></canvas>
+    <canvas id="handCanvas"></canvas>
+    
+
+    <!-- Camera Feed Overlay -->
+    <div class="camera-container">
+        <video id="cameraFeed" autoplay playsinline></video>
+        <canvas id="handCanvas"></canvas>
+    </div>
+
+    <!-- Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="loading-content">
+            <div class="spinner"></div>
+            <h2>Initializing Particle System</h2>
+            <p>Please allow camera access when prompted</p>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+    <script src="main.js"></script>
+    <script src="style.js"></script>
+
+</body>
+
+</html>
