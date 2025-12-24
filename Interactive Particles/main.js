@@ -142,11 +142,6 @@ function createParticleSystem() {
     particleSystem = new THREE.Points(particleGeometry, particleMaterial);
     scene.add(particleSystem);
 }
-
-// ============================================
-// HAND TRACKING SETUP
-// ============================================
-
 async function initHandTracking() {
     videoElement = document.getElementById('cameraFeed');
     canvasElement = document.getElementById('handCanvas');
