@@ -254,14 +254,3 @@
     border-bottom: 2px solid #ff1f1f; 
     box-shadow: 0 5px 10px -5px rgba(255, 31, 31, 0.5); 
 }
-.user-box label {
-    position: absolute;
-    top: 0;
-    left: 0;
-    padding: 10px 0;
-    font-size: 16px;
-    color: #bbb; 
-    pointer-events: none;
-    transition: .5s;
-    font-family: 'Merriweather', serif;
-}
