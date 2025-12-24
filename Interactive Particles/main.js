@@ -101,15 +101,11 @@ function createParticleSystem() {
         positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
         positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
         positions[i * 3 + 2] = radius * Math.cos(phi);
-
-        // Store initial positions
         particlePositions.push({
             x: positions[i * 3],
             y: positions[i * 3 + 1],
             z: positions[i * 3 + 2]
         });
-
-        // Initialize velocities
         particleVelocities.push({ x: 0, y: 0, z: 0 });
 
         // Initial color (blue-purple)
@@ -120,8 +116,6 @@ function createParticleSystem() {
         colors[i * 3 + 2] = color.b;
 
         particleColors.push({ h: colorHue, s: 0.8, l: 0.6 });
-
-        // Random sizes
         sizes[i] = Math.random() * 2 + 1;
     }
 
