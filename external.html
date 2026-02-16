@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Profile Cards</title>
+
+    <style>
+        body {
+            font-family: Georgia, serif;
+            margin: 20px;
+        }
+
+        .container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            padding: 50px;
+            border: 3px solid black;
+        }
+
+        .card {
+            width: 220px;
+            padding: 15px;
+            text-align: center;
+            border-radius: 10px;
+            border: 2px solid #007bff;
+            box-shadow: 4px 4px 10px rgba(0,0,0,0.3);
+            background: white;
+        }
+
+        .circle {
+            width: 70px;
+            height: 70px;
+            margin: auto;
+            border-radius: 50px;
+            background: #07bcf3;
+            color: white;
+            line-height: 70px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        h3 { margin: 10px 0; }
+        p  { margin: 2px 0; }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="card">
+            <div class="circle">PP</div>
+            <h1>Piyush Purohit</h1>
+            <p>B Tech - CSE</p>
+            <p>Roll No: 2025B01010073</p>
+            <p>1st Year</p>
+        </div>
+
+        <div class="card">
+            <div class="circle">PT</div>
+            <h1>Piyush Tomar</h1>
+            <p>B Tech - CSE</p>
+            <p>Roll No: 2025B01010074</p>
+            <p>1st Year</p>
+        </div>
+
+        <div class="card">
+            <div class="circle">PS</div>
+            <h1>Prabhanshu Saxena</h1>
+            <p>B Tech - CSE</p>
+            <p>Roll No: 2025B01010075</p>
+            <p>1st Year</p>
+        </div>
+    </div>
+</body>
+</html>
